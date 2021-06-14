@@ -34,8 +34,8 @@ class StackTest {
 
     @Test
     void pushMultiplePopMultipleButNotAllTest() {
-        int amountToPush = 19;
-        int amountToPop = 11;
+        int amountToPush = 50000;
+        int amountToPop = 10000;
         Stack stack = new Stack();
         pushPopMultiple(stack, amountToPush, amountToPop);
         int expectedValue = amountToPush >= amountToPop ? amountToPush - amountToPop : 0;
@@ -44,8 +44,8 @@ class StackTest {
 
     @Test
     void pushMultiplePopMultipleMoreThanExistsTest() {
-        int amountToPush = 13;
-        int amountToPop = 20;
+        int amountToPush = 5;
+        int amountToPop = 6;
         Stack stack = new Stack();
         pushPopMultiple(stack, amountToPush, amountToPop);
         assertEquals(0, stack.count());
@@ -87,7 +87,7 @@ class StackTest {
         stack.push(new Stack<String>());
         stack.pop();
         stack.pop();
-        assertEquals(1, stack.count());
+        assertEquals(2, stack.count());
     }
 
     @Test
@@ -107,13 +107,14 @@ class StackTest {
     }
 
     @Test
-    void pushingLotsOfData()
+    void pushingTenMillion()
     {
+        int maxAmountOfItems = 10000000;
         Stack stack = new Stack();
-        for (int x=0;x<Integer.MAX_VALUE;x++)
+        for (int x=0;x<maxAmountOfItems;x++)
         {
             stack.push(x);
         }
-        assertEquals(Integer.MAX_VALUE, stack.count());
+        assertEquals(maxAmountOfItems, stack.count());
     }
 }

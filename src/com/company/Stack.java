@@ -2,22 +2,25 @@ package com.company;
 
 class Stack<E> {
     private Object[] _underlyingArray;
+    private int tailIndex;
+    private int initialStackSize = 100;
 
     public Stack() {
-        _underlyingArray = new Object[0];
+        _underlyingArray = new Object[initialStackSize];
+        tailIndex = -1;
     }
 
     public void push(E item) {
-        if (item != null)
-        {
-            try
-            {
+        if (item != null) {
+            try {
                 int length = _underlyingArray.length;
-                _underlyingArray = copyItemsForPush(_underlyingArray);
-                _underlyingArray[length] = item;
-            }
-            catch (Exception ex)
-            {
+                if (tailIndex >= length - 1) {
+                    int newLength = tailIndex == -1 ? initialStackSize : length * 2;
+                    _underlyingArray = copyItems(_underlyingArray, newLength, length);
+                }
+                tailIndex += 1;
+                _underlyingArray[tailIndex] = item;
+            } catch (Exception ex) {
                 System.out.println(ex);
             }
         }
@@ -25,13 +28,17 @@ class Stack<E> {
 
     public E pop() {
         int length = _underlyingArray.length;
-        if (length == 0) {
+        if (tailIndex == -1) {
             return null;
         }
 
         try {
-            Object poppedItem = _underlyingArray[length - 1];
-            _underlyingArray = copyItemsForPop(_underlyingArray);
+            Object poppedItem = _underlyingArray[tailIndex];
+            tailIndex -= 1;
+
+            if (tailIndex < length / 2) {
+                _underlyingArray = copyItems(_underlyingArray, tailIndex + 1, tailIndex);
+            }
             return (E) poppedItem;
         } catch (Exception ex) {
             System.out.println(ex);
@@ -40,32 +47,21 @@ class Stack<E> {
     }
 
     public boolean empty() {
-        return _underlyingArray.length == 0;
+        return tailIndex == -1;
     }
 
     public int count() {
-        return _underlyingArray.length;
-    }
-
-    private E[] copyItemsForPush(Object[] sourceArray) {
-        return copyItems(sourceArray, sourceArray.length + 1, sourceArray.length);
-    }
-
-    private E[] copyItemsForPop(Object[] sourceArray) {
-        return copyItems(sourceArray, sourceArray.length - 1, sourceArray.length - 1);
+        return tailIndex + 1;
     }
 
     private E[] copyItems(Object[] sourceArray, int newLength, int counterAmount) {
-        try
-        {
+        try {
             Object[] newArray = new Object[newLength];
             for (int i = 0; i < counterAmount; i++) {
                 newArray[i] = sourceArray[i];
             }
             return (E[]) newArray;
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             throw ex;
         }
     }
