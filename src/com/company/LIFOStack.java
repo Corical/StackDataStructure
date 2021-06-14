@@ -1,43 +1,45 @@
 package com.company;
 
-class Stack<E> {
-    private Object[] _underlyingArray;
+class LIFOStack<E> implements IStack<E> {
+    private Object[] underlyingArray;
     private int tailIndex;
-    private int initialStackSize = 100;
+    private final int initialStackSize = 100;
 
-    public Stack() {
-        _underlyingArray = new Object[initialStackSize];
+    public LIFOStack() {
+        underlyingArray = new Object[initialStackSize];
         tailIndex = -1;
     }
 
+    @Override
     public void push(E item) {
         if (item != null) {
             try {
-                int length = _underlyingArray.length;
+                int length = underlyingArray.length;
                 if (tailIndex >= length - 1) {
                     int newLength = tailIndex == -1 ? initialStackSize : length * 2;
-                    _underlyingArray = copyItems(_underlyingArray, newLength, length);
+                    underlyingArray = copyItems(underlyingArray, newLength, length);
                 }
                 tailIndex += 1;
-                _underlyingArray[tailIndex] = item;
+                underlyingArray[tailIndex] = item;
             } catch (Exception ex) {
                 System.out.println(ex);
             }
         }
     }
 
+    @Override
     public E pop() {
-        int length = _underlyingArray.length;
+        int length = underlyingArray.length;
         if (tailIndex == -1) {
             return null;
         }
 
         try {
-            Object poppedItem = _underlyingArray[tailIndex];
+            Object poppedItem = underlyingArray[tailIndex];
             tailIndex -= 1;
 
             if (tailIndex < length / 2) {
-                _underlyingArray = copyItems(_underlyingArray, tailIndex + 1, tailIndex);
+                underlyingArray = copyItems(underlyingArray, tailIndex + 1, tailIndex);
             }
             return (E) poppedItem;
         } catch (Exception ex) {
@@ -46,10 +48,12 @@ class Stack<E> {
         }
     }
 
+    @Override
     public boolean empty() {
         return tailIndex == -1;
     }
 
+    @Override
     public int count() {
         return tailIndex + 1;
     }
