@@ -10,6 +10,10 @@ class LIFOStack<E> implements IStack<E> {
         tailIndex = -1;
     }
 
+    /**
+     * Pushed an element on to the array, will increase the underlyingArray if there is insufficient space
+     * @param item element to be pushed on to array
+     */
     @Override
     public void push(E item) {
         if (item != null) {
@@ -27,6 +31,10 @@ class LIFOStack<E> implements IStack<E> {
         }
     }
 
+    /**
+     * Pops an element from the array and decrease underlyingArray size if filled below a certain threshold
+     * @return element that was popped from the array
+     */
     @Override
     public E pop() {
         int length = underlyingArray.length;
@@ -48,30 +56,45 @@ class LIFOStack<E> implements IStack<E> {
         }
     }
 
+    /**
+     * Check to see if the stack is empty, -1 tailIndex means it is empty
+     * @return
+     */
     @Override
     public boolean empty() {
         return tailIndex == -1;
     }
 
+    /**
+     * Returns the current size of the array (this is not the actual size but a maintained size through tailIndex)
+     * @return last index of the stack
+     */
     @Override
     public int count() {
         return tailIndex + 1;
     }
 
-    private E[] copyItems(Object[] sourceArray, int newLength, int counterAmount) {
+    /**
+     * Made public for the tests
+     * @param sourceArray array to copy elements from
+     * @param newArrayLength the length of the new array being created
+     * @param amountOfElementsToCopy the amount of elements that need to be copied over to to new, from the old
+     * @return newly create array with items copied
+     */
+
+    public E[] copyItems(Object[] sourceArray, int newArrayLength, int amountOfElementsToCopy) {
         try {
-            Object[] newArray = new Object[newLength];
-            for (int i = 0; i < counterAmount; i++) {
+
+            if (amountOfElementsToCopy > newArrayLength)
+                throw new IndexOutOfBoundsException();
+
+            Object[] newArray = new Object[newArrayLength];
+            for (int i = 0; i < amountOfElementsToCopy; i++) {
                 newArray[i] = sourceArray[i];
             }
             return (E[]) newArray;
         } catch (Exception ex) {
             throw ex;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "StackDataStructure";
     }
 }

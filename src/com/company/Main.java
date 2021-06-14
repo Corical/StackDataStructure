@@ -5,7 +5,8 @@ import java.io.Console;
 public class Main {
 
     public static void main(String[] args) {
-        /*Stack stringStack = new Stack<>();
+        /*
+        Stack stringStack = new Stack<>();
         stringStack.count();
         stringStack.pop();
         stringStack.push(0);
@@ -28,6 +29,7 @@ public class Main {
         stringStack.push(3);
         stringStack.push(4);
         stringStack.push(5);
-        stringStack.count();*/
+        stringStack.count();
+        */
     }
 }
